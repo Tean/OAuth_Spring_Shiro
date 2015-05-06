@@ -1,5 +1,6 @@
 package com.netteans.test;
 
+import com.netteans.libs.redis.RedisClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,19 +17,19 @@ public class QueryService {
 
     @RequestMapping(value = "/query/{id}", method = RequestMethod.POST)
     public ModelAndView query(@PathVariable("param") String id, String param) {
-        WebServiceBoost webServiceBoost = new WebServiceBoost();
-        String ret = webServiceBoost.query(param);
+        RedisClient redisClient = new RedisClient();
+        redisClient.set("id", id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("return", ret);
+        modelAndView.addObject("return", "haha");
         modelAndView.setViewName("hello");
         return modelAndView;
     }
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public String query(Param param, Model model) {
-        WebServiceBoost webServiceBoost = new WebServiceBoost();
-        String ret = webServiceBoost.query(param.getParam());
-        model.addAttribute("returm", ret);
+        RedisClient redisClient = new RedisClient();
+        redisClient.set("id", "xxx");
+        model.addAttribute("returm", "haha ge x");
         return "hello";
     }
 }
